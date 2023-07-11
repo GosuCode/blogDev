@@ -1,0 +1,137 @@
+import cms from "../../assets/cms.png"
+import user from '../../assets/user.jpg'
+import { PiHeartStraightThin } from 'react-icons/pi'
+import { GoComment } from 'react-icons/go'
+import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
+
+const SingleMain = () => {
+    const { id } = useParams();
+    const [blog, setBlog] = useState({});
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
+
+    useEffect(() => {
+        axios.get(`http://localhost:3001/posts/postById/${id}`).then((response) => {
+            setBlog(response.data);
+        });
+
+        axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
+            setComments(response.data);
+        });
+    }, [id]);
+
+    const addComment = () => {
+        axios
+            .post("http://localhost:3001/comments", {
+                commentBody: newComment,
+                PostId: id,
+            })
+            .then((res) => {
+                console.log(res);
+                const commentToAdd = { commentBody: newComment };
+                setComments([...comments, commentToAdd]);
+                setNewComment("");
+            });
+    };
+
+    return (
+        <>
+            <div className="col-start-3 col-span-7 bg-white shadow-sm shadow-slate-400">
+                <div>
+                    <img src={cms} alt="" className='w-full h-[340px] rounded-t-md' />
+                </div>
+                <div className='flex'>
+                    <div className='grid items-center'>
+                        <img src={user} alt="" className='h-14 rounded-full m-1 p-1' />
+                    </div>
+                    <div className='grid items-center py-3'>
+                        <div className='text-sm font-semibold'>{blog.username}</div>
+                        <span className='text-xs'>Jul 9 (13 mins ago)</span>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Reaction here
+                    </div>
+                    <div className='pl-10'>
+                        <h1 className='font-extrabold text-4xl font-sans'>
+                            {blog.title}
+                        </h1>
+                        <div className='text-sm mb-2 ml-[-4px]'>
+                            #html #webdev #beginners #programming
+                        </div>
+                    </div>
+                </div>
+                <div className="px-16 py-8">
+                    <p>
+                        {blog.postText}
+                    </p>
+                </div>
+                <hr />
+
+                {/* comment section */}
+
+                <div className="px-16 py-8 mb-6">
+                    <section className="mb-4 flex justify-between">
+                        <h2>Top comments </h2>
+                        <button className="border border-blue-500 rounded-md mr-2 py-1 grid items-center px-[15px] font-bold text-blue-600 hover:bg-blue-600 hover:text-white">Subscribe</button>
+                    </section>
+                    {/* Use formik */}
+                    <>
+                        <div className="">
+                            <div className='flex mb-4'>
+                                <span>
+                                    <img src={user} alt="" className='h-14 rounded-full m-1 p-1' />
+                                </span>
+                                <div className="mb-3">
+                                    <input name="" id="" cols="80" rows="2"
+                                        className='focus:outline-none border border-slate-400 p-1'
+                                        placeholder='Add a comment'
+                                        value={newComment}
+                                        onChange={(event) => {
+                                            setNewComment(event.target.value);
+                                        }} />
+                                    <button onClick={addComment}> Add Comment</button>
+                                </div>
+                            </div>
+                            {comments.map((val, key) => {
+                                return (
+                                    <div className='flex' key={key}>
+                                        <span>
+                                            <img src={user} alt="" className='h-14 rounded-full m-1 p-1' />
+                                        </span>
+                                        <div>
+                                            <div>
+                                                <button className='text-sm font-semibold'>Alember Shreesh</button>
+                                            </div>
+                                            <div className='px-3 mb-4 text-sm'>
+                                                <p>
+                                                    {val.commentBody}
+                                                </p>
+                                            </div>
+                                            <div className='flex gap-8'>
+                                                <button className='flex items-center gap-2'>
+                                                    <PiHeartStraightThin />
+                                                    13 Likes
+                                                </button>
+                                                <button className='flex items-center gap-2'>
+                                                    <GoComment />
+                                                    Reply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                    </>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default SingleMain

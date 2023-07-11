@@ -9,7 +9,6 @@ const Posts = () => {
             </div>
             <div>
                 <Post />
-                <Post />
             </div>
         </>
     )

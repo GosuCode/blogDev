@@ -21,7 +21,7 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center">
-                <Link to={'/createPost'} className='border border-blue-500 rounded-md mr-2 grid items-center px-[15px] h-10 font-bold text-blue-600 hover:bg-blue-600 hover:text-white'>
+                <Link to={'/createPost2'} className='border border-blue-500 rounded-md mr-2 grid items-center px-[15px] h-10 font-bold text-blue-600 hover:bg-blue-600 hover:text-white'>
                     Create Post
                 </Link>
                 <div className='mx-1 p-2 text-xl grid items-center hover:text-yellow-500'><RiNotification3Line /></div>

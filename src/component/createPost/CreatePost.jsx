@@ -25,8 +25,8 @@ const CreatePost = () => {
                 </div>
             </div>
             <div className="flex col-start-10 col-span-2">
-                <h4>Writing a Great Post Title</h4>
                 <ul>
+                    <h4 className="text-2xl font-bold">How to write a great post title?</h4>
                     <li>Think of your post title as a super short (but compelling!) description — like an overview of the actual post in one short sentence.</li>
                     <li>Use keywords where appropriate to help ensure people can find your post by search.</li>
                 </ul>
