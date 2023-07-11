@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  box-sizing: border-box;
+}
+
+body{
+  background-color: aliceblue;
+}
+
+/* body{
+  padding-left: 120px;
+  padding-right: 120px;
+} */
