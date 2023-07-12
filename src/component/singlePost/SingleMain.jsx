@@ -5,6 +5,7 @@ import { GoComment } from 'react-icons/go'
 import { useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../helpers/AuthContext"
+import { MdDeleteForever } from 'react-icons/md'
 import axios from "axios"
 
 const SingleMain = () => {
@@ -150,7 +151,7 @@ const SingleMain = () => {
                                                             deleteComment(val.id);
                                                         }}
                                                     >
-                                                        X
+                                                        <MdDeleteForever className="text-red-400" />
                                                     </button>
                                                 )}
                                             </div>
