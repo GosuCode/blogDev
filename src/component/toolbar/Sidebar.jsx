@@ -39,7 +39,7 @@ const Sidebar = () => {
         <div className='px-2'>
             {sidebarData.map((val, key) => {
                 return (
-                    <Link to={val.path} key={key} className='flex w-60 h-10 hover:bg-slate-300 rounded-md'>
+                    <Link to={val.path} key={key} className='flex w-60 h-10 hover:bg-indigo-100 rounded-md'>
                         <div className='grid items-center px-2 text-2xl'>
                             {val.icon}
                         </div>

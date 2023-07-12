@@ -3,7 +3,8 @@ import user from '../../assets/user.jpg'
 import { PiHeartStraightThin } from 'react-icons/pi'
 import { GoComment } from 'react-icons/go'
 import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "../../helpers/AuthContext"
 import axios from "axios"
 
 const SingleMain = () => {
@@ -11,6 +12,7 @@ const SingleMain = () => {
     const [blog, setBlog] = useState({});
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    const { authState } = useContext(AuthContext);
 
     useEffect(() => {
         axios.get(`http://localhost:3001/posts/postById/${id}`).then((response) => {
@@ -29,9 +31,7 @@ const SingleMain = () => {
                 PostId: id,
             },
             {
-                headers: {
-                    accessToken: localStorage.getItem("accessToken"),
-                },
+                headers: { accessToken: localStorage.getItem("accessToken"), },
             }
         )
             .then((response) => {
@@ -42,6 +42,20 @@ const SingleMain = () => {
                     setComments([...comments, commentToAdd]);
                     setNewComment("");
                 }
+            });
+    };
+
+    const deleteComment = (id) => {
+        axios
+            .delete(`http://localhost:3001/comments/${id}`, {
+                headers: { accessToken: localStorage.getItem("accessToken") },
+            })
+            .then(() => {
+                setComments(
+                    comments.filter((val) => {
+                        return val.id != id;
+                    })
+                );
             });
     };
 
@@ -130,6 +144,15 @@ const SingleMain = () => {
                                                     <GoComment />
                                                     Reply
                                                 </button>
+                                                {authState.username === val.username && (
+                                                    <button
+                                                        onClick={() => {
+                                                            deleteComment(val.id);
+                                                        }}
+                                                    >
+                                                        X
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
