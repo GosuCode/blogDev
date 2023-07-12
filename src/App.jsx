@@ -5,6 +5,8 @@ import SinglePost from './component/singlePost/SinglePost';
 import About from './component/pages/About';
 import CreatePost2 from './component/createPost/CreatePost2';
 import "react-toastify/dist/ReactToastify.css";
+import Login from './component/Authentication/Login';
+import Register from './component/Authentication/Register';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route exact path='/about' element={<About />} />
             <Route exact path='/createPost2' element={<CreatePost2 />} />
             <Route exact path='/postById/:id' element={<SinglePost />} />
+            <Route exact path='/login' element={<Login />} />
+            <Route exact path='/register' element={<Register />} />
           </Routes>
         </Layout>
       </Router>

@@ -23,16 +23,25 @@ const SingleMain = () => {
     }, [id]);
 
     const addComment = () => {
-        axios
-            .post("http://localhost:3001/comments", {
+        axios.post("http://localhost:3001/comments",
+            {
                 commentBody: newComment,
                 PostId: id,
-            })
-            .then((res) => {
-                console.log(res);
-                const commentToAdd = { commentBody: newComment };
-                setComments([...comments, commentToAdd]);
-                setNewComment("");
+            },
+            {
+                headers: {
+                    accessToken: localStorage.getItem("accessToken"),
+                },
+            }
+        )
+            .then((response) => {
+                if (response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    const commentToAdd = { commentBody: newComment, username: response.data.username, };
+                    setComments([...comments, commentToAdd]);
+                    setNewComment("");
+                }
             });
     };
 
@@ -89,6 +98,7 @@ const SingleMain = () => {
                                     <input name="" id="" cols="80" rows="2"
                                         className='focus:outline-none border border-slate-400 p-1'
                                         placeholder='Add a comment'
+                                        autoComplete="off"
                                         value={newComment}
                                         onChange={(event) => {
                                             setNewComment(event.target.value);
@@ -104,7 +114,7 @@ const SingleMain = () => {
                                         </span>
                                         <div>
                                             <div>
-                                                <button className='text-sm font-semibold'>Alember Shreesh</button>
+                                                <button className='text-sm font-semibold'>{val.username}</button>
                                             </div>
                                             <div className='px-3 mb-4 text-sm'>
                                                 <p>
