@@ -4,6 +4,7 @@ import { BsBookmark } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
 
 const Left = () => {
+
     return (
         <div className="grid items-center">
             <div className="p-10">

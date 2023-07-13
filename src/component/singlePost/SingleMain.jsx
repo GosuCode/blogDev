@@ -1,4 +1,3 @@
-import cms from "../../assets/cms.png"
 import user from '../../assets/user.jpg'
 import { PiHeartStraightThin } from 'react-icons/pi'
 import { GoComment } from 'react-icons/go'
@@ -26,11 +25,7 @@ const SingleMain = () => {
     }, [id]);
 
     const addComment = () => {
-        axios.post("http://localhost:3001/comments",
-            {
-                commentBody: newComment,
-                PostId: id,
-            },
+        axios.post("http://localhost:3001/comments", { commentBody: newComment, PostId: id, },
             {
                 headers: { accessToken: localStorage.getItem("accessToken"), },
             }
@@ -64,7 +59,7 @@ const SingleMain = () => {
         <>
             <div className="col-start-3 col-span-7 bg-white shadow-sm shadow-slate-400">
                 <div>
-                    <img src={cms} alt="" className='w-full h-[340px] rounded-t-md' />
+                    <img src={`http://localhost:3001/${blog.image}`} alt="" className='w-full h-[340px] rounded-t-md' />
                 </div>
                 <div className='flex'>
                     <div className='grid items-center'>
@@ -90,7 +85,7 @@ const SingleMain = () => {
                 </div>
                 <div className="px-16 py-8">
                     <p>
-                        {blog.postText}
+                        {blog.description}
                     </p>
                 </div>
                 <hr />
