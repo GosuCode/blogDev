@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../helpers/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const User = () => {
@@ -37,9 +37,9 @@ const User = () => {
         mt-4 mr-1 p-2">
             <ul>
                 <li className="px-4 py-2 cursor-pointer hover:bg-indigo-100 rounded-md font-semibold">
-                    <div className="capitalize">
+                    <Link to={'/profile'} className="capitalize">
                         {authState.username}
-                    </div>
+                    </Link>
                 </li> <hr />
                 <li className="px-4 py-2 cursor-pointer rounded-md opacity-60 hover:opacity-100 hover:bg-indigo-100">
                     <div>

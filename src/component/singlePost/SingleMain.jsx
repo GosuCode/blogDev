@@ -5,11 +5,14 @@ import { useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../helpers/AuthContext"
 import { MdDeleteForever } from 'react-icons/md'
+import { TbHeartPlus } from "react-icons/tb";
+import { BsBookmark } from "react-icons/bs";
+import { FiMoreHorizontal } from "react-icons/fi";
 import axios from "axios"
 
 const SingleMain = () => {
     const { id } = useParams();
-    const [blog, setBlog] = useState({});
+    const [blog, setBlog] = useState([]);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const { authState } = useContext(AuthContext);
@@ -49,7 +52,31 @@ const SingleMain = () => {
             .then(() => {
                 setComments(
                     comments.filter((val) => {
-                        return val.id != id;
+                        return val.id !== id;
+                    })
+                );
+            });
+    };
+
+    const likeAPost = (postId) => {
+        axios.post("http://localhost:3001/likes",
+            { PostId: postId },
+            { headers: { accessToken: localStorage.getItem("accessToken") } }
+        )
+            .then((response) => {
+                setBlog(
+                    blog.map((post) => {
+                        if (post.id === postId) {
+                            if (response.data.liked) {
+                                return { ...post, Likes: [...post.Likes, 0] };
+                            } else {
+                                const likesArray = post.Likes;
+                                likesArray.pop();
+                                return { ...post, Likes: likesArray };
+                            }
+                        } else {
+                            return post;
+                        }
                     })
                 );
             });
@@ -57,6 +84,23 @@ const SingleMain = () => {
 
     return (
         <>
+            <div className="grid items-center">
+                <button onClick={() => {
+                    likeAPost(blog.id);
+                }} className="p-10">
+                    <TbHeartPlus className="text-2xl hover:text-rose-500" />
+                    <span>{'1'} </span>
+                </button>
+                <div className="p-10">
+                    <GoComment className="text-2xl hover:text-blue-500" />
+                </div>
+                <div className="p-10">
+                    <BsBookmark className="text-2xl hover:text-yellow-400" />
+                </div>
+                <div className="p-10">
+                    <FiMoreHorizontal className="text-2xl hover:text-slate-500" />
+                </div>
+            </div>
             <div className="col-start-3 col-span-7 bg-white shadow-sm shadow-slate-400">
                 <div>
                     <img src={`http://localhost:3001/${blog.image}`} alt="" className='w-full h-[340px] rounded-t-md' />

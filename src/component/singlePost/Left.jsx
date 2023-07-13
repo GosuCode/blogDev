@@ -7,10 +7,10 @@ const Left = () => {
 
     return (
         <div className="grid items-center">
-            <div className="p-10">
+            <button className="p-10">
                 <TbHeartPlus className="text-2xl hover:text-rose-500" />
-                <span>4</span>
-            </div>
+                <span></span>
+            </button>
             <div className="p-10">
                 <GoComment className="text-2xl hover:text-blue-500" />
             </div>

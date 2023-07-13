@@ -2,7 +2,14 @@
 const About = () => {
     return (
         <div>
-            About us
+            <select name="" id="">
+                <option value="">#programming</option>
+                <option value="">#beginners</option>
+                <option value="">#gaming</option>
+                <option value="">#techNews</option>
+                <option value="">#science</option>
+                <option value="">#art</option>
+            </select>
         </div>
     )
 }

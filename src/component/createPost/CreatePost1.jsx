@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as yup from 'yup'
 import axios from 'axios'
-import { RxCross2 } from 'react-icons/rx'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../../helpers/AuthContext'
 
 const validationSchema = yup.object().shape({
     title: yup.string().required('Title is required.'),
@@ -23,6 +23,7 @@ const FormField = [
 const CreatePost1 = () => {
     const [showimage, setShowImage] = useState("");
     const [newImage, setImage] = useState([]);
+    const { authState } = useContext(AuthContext)
 
     const handleImageUpload = (event) => {
         setShowImage(event.target.files[0]);
@@ -33,12 +34,13 @@ const CreatePost1 = () => {
         const formData = new FormData();
         formData.append("title", value.title);
         formData.append("description", value.description);
+        formData.append("username", `${authState.username}`);
         for (let i = 0; i < newImage.length; i++) {
             formData.append("image", newImage[i]);
         }
         console.log(newImage);
         try {
-            await axios.post("http://localhost:3001/posts/posts", formData);
+            await axios.post("http://localhost:3001/posts", formData);
             console.trace("who called upon me?")
         } catch (error) {
             console.log(error);
@@ -53,7 +55,8 @@ const CreatePost1 = () => {
     const initialValues = {
         title: '',
         description: '',
-        image: ''
+        image: '',
+        username: `${authState.username}`
     }
     return (
         <div className="grid justify-center mt-24">
@@ -66,24 +69,21 @@ const CreatePost1 = () => {
                     return (
                         <Form
                             onSubmit={handleSubmit} encType="multipart/form-data"
-                            className='rounded-lg bg-[#303338] text-white h-[400px] w-[500px] grid items-center px-6'
+                            className='rounded-lg bg-white h-[400px] w-[500px] grid items-center px-6'
                         >
                             <div className='grid grid-cols-3 border-b border-b-[#606770]'>
                                 <div className='col-start-2 grid justify-center text-2xl pb-4'>Create post</div>
-                                <div className='col-start-3 grid justify-end text-4xl'>
-                                    <RxCross2 />
-                                </div>
                             </div>
                             <div>
                                 {
                                     FormField.map((val, i) => {
                                         return (
                                             <div key={i} className='grid grid-cols-6'>
-                                                <label htmlFor={val.name} className='capitalize'>{val.name}</label>
+                                                <label htmlFor={val.name} className='capitalize mt-3'>{val.name}</label>
                                                 <Field name={val.name}
                                                     autoComplete='off'
                                                     placeholder='enter your name'
-                                                    className='col-start-3 col-span-4 focus:outline-none rounded-md text-black px-2 py-1' />
+                                                    className='col-start-3 col-span-4 border-b-2 mt-2 border-blue-500 focus:outline-none text-black px-2 py-1' />
                                                 <ErrorMessage
                                                     name={val.name}
                                                     className='text-red-600 col-span-4'
@@ -93,7 +93,7 @@ const CreatePost1 = () => {
                                     })
                                 }
                                 <div>
-                                    <label htmlFor="image">Image</label>
+                                    <label htmlFor="image" className=''>Image</label>
                                     <img
                                         src={
                                             showimage
@@ -114,7 +114,7 @@ const CreatePost1 = () => {
                                     />
                                 </div>
                             </div>
-                            <button type='submit' className='bg-[#606770] rounded-md py-2'>Post</button>
+                            <button type='submit' className='bg-blue-500 text-white font-semibold hover:bg-blue-700 rounded-md py-2'>Post</button>
 
                         </Form>
                     )

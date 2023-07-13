@@ -1,4 +1,4 @@
-import cms from '../../assets/cms.png'
+// import cms from '../../assets/cms.png'
 import { GoComment } from 'react-icons/go'
 import { BsBookmark } from 'react-icons/bs'
 import user from '../../assets/user.jpg'
@@ -14,6 +14,7 @@ const Post = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:3001/posts");
+                // await new Promise((resolve) => setTimeout(resolve, 1000));
                 setBlogs(response.data);
             } catch (error) {
                 console.log(error);
@@ -30,7 +31,7 @@ const Post = () => {
                         <div className='bg-white rounded-md shadow-md'>
                             <div key={i}>
                                 <div className='w-full'>
-                                    <img src={cms} alt="" className='w-full h-[300px] rounded-t-md' />
+                                    <img src={`http://localhost:3001/${val.image}`} alt="" className='w-full h-[300px] rounded-t-md' />
                                 </div>
 
                                 <div className='p-5 mb-2'>

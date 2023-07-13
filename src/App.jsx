@@ -8,6 +8,7 @@ import CreatePost1 from '../src/component/createPost/CreatePost1'
 import "react-toastify/dist/ReactToastify.css";
 import Login from './component/Authentication/Login';
 import Register from './component/Authentication/Register';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 function App() {
   return (
