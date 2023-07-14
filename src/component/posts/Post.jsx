@@ -63,6 +63,7 @@ const Post = () => {
                                             </div>
                                             <div className='p-3'>
                                                 <BsBookmark />
+                                                <span>{val.Likes.length}</span>
                                             </div>
                                         </div>
                                     </div>

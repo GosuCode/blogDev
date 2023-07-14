@@ -1,13 +1,15 @@
 import user from '../../assets/user.jpg'
 import { PiHeartStraightThin } from 'react-icons/pi'
 import { GoComment } from 'react-icons/go'
-import { useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../helpers/AuthContext"
 import { MdDeleteForever } from 'react-icons/md'
 import { TbHeartPlus } from "react-icons/tb";
 import { BsBookmark } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { RiDeleteBin5Fill } from 'react-icons/ri'
+import { AiFillEdit } from 'react-icons/ai'
 import axios from "axios"
 
 const SingleMain = () => {
@@ -16,6 +18,7 @@ const SingleMain = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const { authState } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://localhost:3001/posts/postById/${id}`).then((response) => {
@@ -64,21 +67,17 @@ const SingleMain = () => {
             { headers: { accessToken: localStorage.getItem("accessToken") } }
         )
             .then((response) => {
-                setBlog(
-                    blog.map((post) => {
-                        if (post.id === postId) {
-                            if (response.data.liked) {
-                                return { ...post, Likes: [...post.Likes, 0] };
-                            } else {
-                                const likesArray = post.Likes;
-                                likesArray.pop();
-                                return { ...post, Likes: likesArray };
-                            }
-                        } else {
-                            return post;
-                        }
-                    })
-                );
+                console.log(response.data);
+            });
+    };
+
+    const deletePost = (id) => {
+        axios
+            .delete(`http://localhost:3001/posts/${id}`, {
+                headers: { accessToken: localStorage.getItem("accessToken") },
+            })
+            .then(() => {
+                navigate("/");
             });
     };
 
@@ -89,7 +88,7 @@ const SingleMain = () => {
                     likeAPost(blog.id);
                 }} className="p-10">
                     <TbHeartPlus className="text-2xl hover:text-rose-500" />
-                    <span>{'1'} </span>
+                    {/* <span>{blog.Likes.length} </span> */}
                 </button>
                 <div className="p-10">
                     <GoComment className="text-2xl hover:text-blue-500" />
@@ -114,6 +113,21 @@ const SingleMain = () => {
                         <span className='text-xs'>Jul 9 (13 mins ago)</span>
                     </div>
                 </div>
+                {authState.username === blog.username && (
+                    <div>
+                        <button className='text-red-500'
+                            onClick={() => {
+                                deletePost(blog.id);
+                            }}
+                        >
+                            <RiDeleteBin5Fill />
+                        </button>
+                        <Link to={`/updatePost/${blog.id}`} state={blog}>
+                            <AiFillEdit className='text-purple-600 text-2xl' />
+                        </Link>
+                    </div>
+
+                )}
                 <div>
                     <div>
                         Reaction here
@@ -128,9 +142,7 @@ const SingleMain = () => {
                     </div>
                 </div>
                 <div className="px-16 py-8">
-                    <p>
-                        {blog.description}
-                    </p>
+                    <p dangerouslySetInnerHTML={{ __html: blog.description }} />
                 </div>
                 <hr />
 

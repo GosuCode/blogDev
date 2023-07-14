@@ -21,7 +21,7 @@ const TextEditor = () => {
     }
     return (
         <>
-            <ReactQuill theme="snow" modules={module} value={editor} onChange={setEditor} />
+            <ReactQuill className='h-[260px] font-mono' placeholder='write' theme="snow" modules={module} value={editor} onChange={setEditor} />
         </>
     )
 }
