@@ -3,7 +3,7 @@ import * as yup from 'yup'
 import axios from 'axios'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../helpers/AuthContext'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 const validationSchema = yup.object().shape({
     title: yup.string().required('Title is required.'),
@@ -22,6 +22,7 @@ const FormField = [
 
 
 const CreatePost1 = () => {
+    const { id } = useParams();
     const location = useLocation();
     const [showimage, setShowImage] = useState("");
     const [newImage, setImage] = useState([]);
@@ -42,7 +43,7 @@ const CreatePost1 = () => {
         }
         console.log(newImage);
         try {
-            await axios.put(`http://localhost:3001/posts/update`, formData);
+            await axios.put(`http://localhost:3001/posts/updatePost/${id}`, formData);
             console.trace("Post updated successfully")
         } catch (error) {
             console.log(error);
