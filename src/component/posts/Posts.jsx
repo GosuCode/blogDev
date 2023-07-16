@@ -1,6 +1,7 @@
 import Post from "./Post"
 
 const Posts = () => {
+
     return (
         <>
             <div className='flex text-xl hover:cursor-pointer'>

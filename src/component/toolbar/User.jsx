@@ -1,16 +1,17 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../helpers/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const User = () => {
     const { authState, setAuthState } = useContext(AuthContext)
-    const navigate = useNavigate();
 
     const logout = () => {
         localStorage.removeItem("accessToken");
         setAuthState({ username: "", id: 0, status: false });
-        navigate("/");
+        setTimeout(() => {
+            window.location = "/"
+        }, 1000)
     }
 
     useEffect(() => {

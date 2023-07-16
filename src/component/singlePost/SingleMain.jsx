@@ -1,5 +1,4 @@
 import user from '../../assets/user.jpg'
-import { PiHeartStraightThin } from 'react-icons/pi'
 import { GoComment } from 'react-icons/go'
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
@@ -83,7 +82,7 @@ const SingleMain = () => {
 
     return (
         <>
-            <div className="grid items-center">
+            <div className="grid items-center fixed">
                 <button onClick={() => {
                     likeAPost(blog.id);
                 }} className="p-10">
@@ -136,9 +135,6 @@ const SingleMain = () => {
                         <h1 className='font-extrabold text-4xl font-sans'>
                             {blog.title}
                         </h1>
-                        <div className='text-sm mb-2 ml-[-4px]'>
-                            #html #webdev #beginners #programming
-                        </div>
                     </div>
                 </div>
                 <div className="px-16 py-8">
@@ -174,38 +170,32 @@ const SingleMain = () => {
                             </div>
                             {comments.map((val, key) => {
                                 return (
-                                    <div className='flex' key={key}>
-                                        <span>
+                                    <div className='grid grid-cols-12 items-center' key={key}>
+                                        <span className='col-start-1 col-span-1'>
                                             <img src={user} alt="" className='h-14 rounded-full m-1 p-1' />
                                         </span>
-                                        <div>
+                                        <div className='col-start-2 col-span-10 p-4'>
                                             <div>
                                                 <button className='text-sm font-semibold'>{val.username}</button>
                                             </div>
-                                            <div className='px-3 mb-4 text-sm'>
+                                            <div className='px-3 mb-4 text-sm flex justify-between'>
                                                 <p>
                                                     {val.commentBody}
                                                 </p>
-                                            </div>
-                                            <div className='flex gap-8'>
-                                                <button className='flex items-center gap-2'>
-                                                    <PiHeartStraightThin />
-                                                    13 Likes
-                                                </button>
-                                                <button className='flex items-center gap-2'>
-                                                    <GoComment />
-                                                    Reply
-                                                </button>
                                                 {authState.username === val.username && (
-                                                    <button
-                                                        onClick={() => {
-                                                            deleteComment(val.id);
-                                                        }}
-                                                    >
-                                                        <MdDeleteForever className="text-red-400" />
-                                                    </button>
+                                                    <>
+                                                        <button
+                                                            onClick={() => {
+                                                                deleteComment(val.id);
+                                                            }}
+                                                            className='text-xl'
+                                                        >
+                                                            <MdDeleteForever className="text-red-400" />
+                                                        </button>
+                                                    </>
                                                 )}
                                             </div>
+                                            <hr />
                                         </div>
                                     </div>
                                 )
