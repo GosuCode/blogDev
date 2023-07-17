@@ -4,7 +4,7 @@ import Sidebar from "./toolbar/Sidebar"
 
 const Index = () => {
     return (
-        <div className="grid grid-cols-12 gap-4 p-4">
+        <div className="grid grid-cols-12 gap-4 p-4 px-28">
             <div className="col-start-1 col-span-3">
                 <Sidebar />
             </div>

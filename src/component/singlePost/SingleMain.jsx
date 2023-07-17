@@ -9,6 +9,7 @@ import { BsBookmark } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { RiDeleteBin5Fill } from 'react-icons/ri'
 import { AiFillEdit } from 'react-icons/ai'
+import { toast, ToastContainer } from 'react-toastify'
 import axios from "axios"
 
 const SingleMain = () => {
@@ -37,7 +38,7 @@ const SingleMain = () => {
         )
             .then((response) => {
                 if (response.data.error) {
-                    console.log(response.data.error);
+                    toast.warn('User not logged In!')
                 } else {
                     const commentToAdd = { commentBody: newComment, username: response.data.username, };
                     setComments([...comments, commentToAdd]);
@@ -65,8 +66,8 @@ const SingleMain = () => {
             { PostId: postId },
             { headers: { accessToken: localStorage.getItem("accessToken") } }
         )
-            .then((response) => {
-                console.log(response.data);
+            .then((res) => {
+                if (res.data.error) toast.warning("User not logged In!")
             });
     };
 
@@ -82,20 +83,20 @@ const SingleMain = () => {
 
     return (
         <>
-            <div className="grid items-center fixed">
+            <div className="fixed ml-10">
                 <button onClick={() => {
                     likeAPost(blog.id);
-                }} className="p-10">
+                }} className="grid mt-8 justify-items-center w-12 h-12 items-center hover:bg-slate-200 rounded-full">
                     <TbHeartPlus className="text-2xl hover:text-rose-500" />
                     {/* <span>{blog.Likes.length} </span> */}
                 </button>
-                <div className="p-10">
+                <div className="grid mt-8 justify-items-center w-12 h-12 items-center hover:bg-slate-200 rounded-full">
                     <GoComment className="text-2xl hover:text-blue-500" />
                 </div>
-                <div className="p-10">
+                <div className="grid mt-8 justify-items-center w-12 h-12 items-center hover:bg-slate-200 rounded-full">
                     <BsBookmark className="text-2xl hover:text-yellow-400" />
                 </div>
-                <div className="p-10">
+                <div className="grid mt-8 justify-items-center w-12 h-12 items-center hover:bg-slate-200 rounded-full">
                     <FiMoreHorizontal className="text-2xl hover:text-slate-500" />
                 </div>
             </div>
@@ -103,7 +104,7 @@ const SingleMain = () => {
                 <div>
                     <img src={`http://localhost:3001/${blog.image}`} alt="" className='w-full h-[340px] rounded-t-md' />
                 </div>
-                <div className='flex'>
+                <div className='flex mt-4'>
                     <div className='grid items-center'>
                         <img src={user} alt="" className='h-14 rounded-full m-1 p-1' />
                     </div>
@@ -113,31 +114,29 @@ const SingleMain = () => {
                     </div>
                 </div>
                 {authState.username === blog.username && (
-                    <div>
-                        <button className='text-red-500'
+                    <div className='flex justify-between px-20 items-center'>
+                        <button className='text-red-500 text-2xl grid items-center'
                             onClick={() => {
                                 deletePost(blog.id);
                             }}
                         >
                             <RiDeleteBin5Fill />
+                            <span className='text-base text-black'>Delete</span>
                         </button>
                         <Link to={`/updatePost/${blog.id}`} state={blog}>
                             <AiFillEdit className='text-purple-600 text-2xl' />
+                            <span className='text-base text-black'>Edit</span>
                         </Link>
                     </div>
-
                 )}
-                <div>
-                    <div>
-                        Reaction here
-                    </div>
+                <div className='mt-8'>
                     <div className='pl-10'>
                         <h1 className='font-extrabold text-4xl font-sans'>
                             {blog.title}
                         </h1>
                     </div>
                 </div>
-                <div className="px-16 py-8">
+                <div className="px-16 py-8 font-serif">
                     <p dangerouslySetInnerHTML={{ __html: blog.description }} />
                 </div>
                 <hr />
@@ -145,11 +144,9 @@ const SingleMain = () => {
                 {/* comment section */}
 
                 <div className="px-16 py-8 mb-6">
-                    <section className="mb-4 flex justify-between">
+                    <section className="mb-4 font-bold text-lg">
                         <h2>Top comments </h2>
-                        <button className="border border-blue-500 rounded-md mr-2 py-1 grid items-center px-[15px] font-bold text-blue-600 hover:bg-blue-600 hover:text-white">Subscribe</button>
                     </section>
-                    {/* Use formik */}
                     <>
                         <div className="">
                             <div className='flex mb-4'>
@@ -158,14 +155,14 @@ const SingleMain = () => {
                                 </span>
                                 <div className="mb-3">
                                     <input name="" id="" cols="80" rows="2"
-                                        className='focus:outline-none border border-slate-400 p-1'
+                                        className='focus:outline-none border-2 focus:border-blue-500 rounded-lg text-lg w-[400px] p-1'
                                         placeholder='Add a comment'
                                         autoComplete="off"
                                         value={newComment}
                                         onChange={(event) => {
                                             setNewComment(event.target.value);
                                         }} />
-                                    <button onClick={addComment}> Add Comment</button>
+                                    <button onClick={addComment} className='shadow-sm hover:shadow-slate-400 border border-blue-500 font-bold py-1 ml-6 px-4 rounded-md'> Add Comment</button>
                                 </div>
                             </div>
                             {comments.map((val, key) => {
@@ -197,6 +194,7 @@ const SingleMain = () => {
                                             </div>
                                             <hr />
                                         </div>
+                                        <ToastContainer />
                                     </div>
                                 )
                             })}
