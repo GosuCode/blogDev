@@ -15,10 +15,11 @@ const Navbar = () => {
         <nav>
             <div className='flex justify-between px-1 border-b border-slate-400 bg-white'>
                 <div className="flex gap-2">
-                    <Link to={'/'}>
+                    <Link to={'/'} className='flex items-center'>
                         <img src={logo} alt="" className='h-14 rounded-full m-1 p-1' />
+                        <span className='text-2xl font-bold'>WIRE.</span>
                     </Link>
-                    <div className='grid items-center'>
+                    <div className='grid items-center ml-3'>
                         <div className='flex w-[420px] h-10 px-2 py-[6px] border border-slate-400 rounded-sm'>
                             <input type="search" name="" id="" placeholder="Search..."
                                 className='w-full focus:outline-none' />
