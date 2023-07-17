@@ -207,4 +207,5 @@ const SingleMain = () => {
     )
 }
 
+login, register, singleMain UI updated
 export default SingleMain
