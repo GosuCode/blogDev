@@ -9,6 +9,10 @@ import Register from './component/Authentication/Register';
 import UpdatePost from './component/createPost/UpdatePost';
 import 'react-loading-skeleton/dist/skeleton.css'
 import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
+import Login from './component/Authentication/Login';
+import Register from './component/Authentication/Register';
+import CreatePost from './component/createPost/CreatePost';
 
 function App() {
   return (
@@ -20,6 +24,7 @@ function App() {
             <Route exact path='/about' element={<About />} />
             <Route exact path='/createPost' element={<CreatePost />} />
             <Route exact path='/updatePost/:id' element={<UpdatePost />} />
+            <Route exact path='/createPost2' element={<CreatePost />} />
             <Route exact path='/postById/:id' element={<SinglePost />} />
             <Route exact path='/login' element={<Login />} />
             <Route exact path='/register' element={<Register />} />
